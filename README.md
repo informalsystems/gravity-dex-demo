@@ -37,8 +37,35 @@ liquidityd add-genesis-account $(liquidityd keys show user1 --keyring-backend te
 # Create gentx and collect
 liquidityd gentx validator 1000000000stake --chain-id consensus-testnet --keyring-backend test
 liquidityd collect-gentxs
+```
 
-# Start
+#### Enable the REST API
+
+Edit the file 
+
+```
+vim ~/.liquidityapp/config/app.toml 
+```
+
+Modify the `enable` and `enabled-unsafe-cors` parameter under `[api]`, set them to true:
+
+```
+###############################################################################
+###                           API Configuration                             ###
+###############################################################################
+
+[api]
+
+# Enable defines if the API server should be enabled.
+enable = true
+...
+# EnableUnsafeCORS defines if CORS should be enabled (unsafe - use it at your own risk).
+enabled-unsafe-cors = true
+```
+
+#### Start the chain
+
+```
 liquidityd start
 ```
 
@@ -71,8 +98,8 @@ Modify the `chainInfo` variable to look like the one below: (basically change th
 
 ```
 export const chainInfo = {
-  rpc: "https://localhost:26657",
-  rest: "https://localhost:1317",
+  rpc: "http://localhost:26657",
+  rest: "http://localhost:1317",
   chainId: "consensus-testnet",
   chainName: "Consensus Testnet",
   stakeCurrency: stakingCurrency,
