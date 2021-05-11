@@ -39,7 +39,7 @@ liquidityd gentx validator 1000000000stake --chain-id consensus-testnet --keyrin
 liquidityd collect-gentxs
 ```
 
-#### Enable the REST API
+#### Enable CORS for the REST API
 
 Edit the file 
 
@@ -63,6 +63,31 @@ enable = true
 enabled-unsafe-cors = true
 ```
 
+#### Enable CORS for the RPC 
+
+Edit the file 
+
+```
+vim ~/.liquidityapp/config/config.toml 
+```
+
+Change the `cors_allowed_origins` parameter to accept `"*"`:
+
+```
+#######################################################
+###       RPC Server Configuration Options          ###
+#######################################################
+[rpc]
+
+# TCP or UNIX socket address for the RPC server to listen on
+laddr = "tcp://127.0.0.1:26657"
+
+# A list of origins a cross-domain request can be executed from
+# Default value '[]' disables cors support
+# Use '["*"]' to allow any origin
+cors_allowed_origins = ["*"]
+```
+
 #### Start the chain
 
 ```
@@ -70,6 +95,12 @@ liquidityd start
 ```
 
 For information on how to create transactions using the `liquidityd` binary, please check [these instructions](https://github.com/tendermint/liquidity#21-broadcast-transactions-using-cli-commands)
+
+For example to create a liquidity pool for ATOM <-> AKT run the command from a terminal prompt:
+
+```
+liquidityd tx liquidity create-pool 1 1000000000uatom,50000000000uakt --from user1 --keyring-backend test --chain-id consensus-testnet
+```
 
 ## Gravity DEX UI
 
