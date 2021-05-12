@@ -119,7 +119,7 @@ func getCoinsHandler(w http.ResponseWriter, request *http.Request) {
 	}
 	already = append(already, address)
 
-	sendFaucet := fmt.Sprintf("liquidityd tx bank send %v %v %v,%v,%v --chain-id=%v -y --home ~/.liquidityapp",
+	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v,%v,%v --chain-id=%v -y --home ~/.liquidityapp",
 		key, address, amountAtom, amountAkt, amountIris, chain)
 	fmt.Println(sendFaucet)
 	fmt.Println(time.Now().UTC().Format(time.RFC3339), address, "[1]")
