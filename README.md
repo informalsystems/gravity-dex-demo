@@ -1,6 +1,22 @@
 # gravity-dex-demo
 
-These are the instructions to run an environment for the Gravity DEX with UI (supports Swap, Pools and Faucet) with Keplr integration
+These are the instructions to run an environment for the Gravity DEX with UI
+(supports Swap, Pools and Faucet) with Keplr integration on your local machine
+from the source repos.
+
+This repo is structured as a mono repo with correct branches of the source repos
+copied in, so instead of cloning and checking out per the instructions below,
+you can just use the directories here.
+
+That said the IP address will need to be changed in the following files from
+localhost to whatever the public IP is:
+
+- `FAUCET_PUBLIC_URL` in `faucet/backend/.env`
+- `const response = await
+  axios.get(`http://localhost:9999/?address=${userAddress}`)` in
+  `gravity-dex-interface/src/components/Buttons/ListButton.tsx`
+- `rpc` and `rest` in `gravity-dex-interface/src/cosmos-amm/config.js`
+
 
 ## Liquidity Chain
 
@@ -29,10 +45,12 @@ Execute the commands below to run the chain
 liquidityd init node-01 --chain-id consensus-testnet
 liquidityd keys add validator --keyring-backend test --output json > validator_key.json
 liquidityd keys add user1 --keyring-backend test --output json > user1_key.json
+liquidityd keys add faucet --keyring-backend test --output json > faucet_key.json
 
 # Add genesis accounts and provide coins to the accounts
 liquidityd add-genesis-account $(liquidityd keys show validator --keyring-backend test -a) 10000000000stake,10000000000uatom,500000000000uakt,10000000000uiris
 liquidityd add-genesis-account $(liquidityd keys show user1 --keyring-backend test -a) 10000000000stake,10000000000uatom,500000000000uakt,10000000000uiris
+liquidityd add-genesis-account $(liquidityd keys show faucet --keyring-backend test -a) 10000000000stake,10000000000uatom,500000000000uakt,10000000000uiris
 
 # Create gentx and collect
 liquidityd gentx validator 1000000000stake --chain-id consensus-testnet --keyring-backend test
@@ -40,6 +58,10 @@ liquidityd collect-gentxs
 ```
 
 #### Enable CORS for the REST API
+
+To use a preset config file, copy `config/app.toml` to `~/.liquidityapp/config/app.toml`. 
+
+Alternatively, modify your existing app.toml file as follows:
 
 Edit the file 
 
@@ -64,6 +86,10 @@ enabled-unsafe-cors = true
 ```
 
 #### Enable CORS for the RPC 
+
+To use a preset config file, copy `config/config.toml` to `~/.liquidityapp/config/config.toml`. 
+
+Alternatively, modify your existing config.toml file as follows:
 
 Edit the file 
 
@@ -208,4 +234,12 @@ Open the Keplr wallet and switch to the `Consensus Testnet` chain using the drop
 
 [TBD]
 
-The faucet I believe can be enabled using this: https://github.com/nodebreaker0-0/faucet/tree/liquidity
+The faucet can be enabled using this: https://github.com/nodebreaker0-0/faucet/tree/liquidity
+
+Follow the README there for setup. But essentially:
+
+- configure the `FAUCET_PUBLIC_URL` in `backend/.env`
+- compile with `go build faucet.go`
+- run with `./faucet`
+
+
