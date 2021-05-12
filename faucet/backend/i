@@ -1,0 +1,3 @@
+liquidityd tx bank send faucet cosmos14t26pkzv6ph37azmz2cd7nhx250m5dl3c2ddj9 300000000uatom,, --chain-id= -y --home /root/.liquidityapp%!(EXTRA string=, string=100000000uakt, string=, string=, string=, string=100000000uiris, string=, string=, string=, string=consensus-testnet)
+2021-05-12T01:01:51Z cosmos14t26pkzv6ph37azmz2cd7nhx250m5dl3c2ddj9 [1]
+
