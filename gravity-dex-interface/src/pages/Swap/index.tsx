@@ -13,7 +13,23 @@ import ActionButton from "../../components/Buttons/ActionButton"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
 import { BroadcastLiquidityTx } from "../../cosmos-amm/tx-client.js"
-import { getSelectedPairsPoolData, getPoolPrice, cutNumber, calculateSlippage, sortCoins, getMinimalDenomCoin } from "../../utils/global-functions"
+import { getSelectedPairsPoolData, getPoolPrice, cutNumber, calculateSlippage, sortCoins, } from "../../utils/global-functions"
+import {getMinimalDenomCoin as getMDC }  from "../../utils/global-functions"
+
+
+function getMinimalDenomCoin(coin) {
+    if (coin.startsWith('bc/')) {
+        return "i" + coin 
+    }
+    return getMDC(coin)
+}
+
+function uSlice(coin) {
+   if (coin.startsWith("bc")) {
+       return coin.substr(0)
+   }
+   return coin.substr(1)
+}
 
 //Styled-components
 const SwapWrapper = styled.div`
@@ -201,7 +217,7 @@ function SwapCard() {
         if (state.fromCoin !== '' && state.toCoin) {
             //get and set pool pair status
             const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-            const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+            const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
 
             const isReverse = preSortedCoins[0].substr(1) === state.toCoin
 
@@ -497,7 +513,7 @@ function SwapCard() {
                     {/* Swap detail */}
                     <div className="swap-detail">
                         <div className="left">Price</div>
-                        <div className="right">{(state.price !== '-' && !isNaN(state.price)) ? `${cutNumber(state.price, 6)} ${state.toCoin.toUpperCase()} per ${state.fromCoin.toUpperCase()}` : '-'}</div>
+                        <div className="right">{(state.price !== '-' && !isNaN(state.price)) ? `${cutNumber(state.price, 6)} ${state.toCoin.substr(0,10)} per ${state.fromCoin.substr(0,10)}` : '-'}</div>
                     </div>
 
                     <div className="swap-detail">
@@ -527,7 +543,7 @@ function SwapCard() {
                         <div className="content">
                             <div className="detail">
                                 <div className="title">Estimated Receives</div>
-                                <div className="data">{state.toAmount} {state.toCoin ? state.toCoin.toUpperCase() : ''}</div>
+                                <div className="data">{state.toAmount} {state.toCoin ? state.toCoin.toUpperCase().substr(0,10) : ''}</div>
                             </div>
                             <div className="detail">
                                 <div className="title">Price Impact</div>

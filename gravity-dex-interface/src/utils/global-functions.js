@@ -41,6 +41,8 @@ export function getMyCoinBalance(coin, myBalance) {
 export function getMinimalDenomCoin(x) {
     if (x === "run" || x === "xrun") {
         return "xrun"
+    } else if (x.startsWith("ibc") ) {
+        return x
     } else {
         return "u" + x
     }
@@ -64,14 +66,20 @@ export function checkImageExsistence(coinName) {
     }
 }
 
+function uSlice(coin) {
+   /*if (coin.startsWith("ibc")) {
+       return coin.substr(0)
+   }*/
+   return coin.substr(1)
+}
+
 export function getSelectedPairsPoolData(state, action, counterTarget, poolData) {
     let coinA = state[`${counterTarget}Coin`]
     let coinB = action.payload.coin
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
-
-    const selectedPairsPoolData = poolData?.[`${sortedCoins[0]}/${sortedCoins[1]}`]
-
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
+    let key = `${sortedCoins[0]}/${sortedCoins[1]}`
+    const selectedPairsPoolData = poolData?.[key]
     return selectedPairsPoolData === undefined ? false : selectedPairsPoolData
 }
 
@@ -87,7 +95,7 @@ export function getPoolPrice(state, action, counterTarget, poolData) {
     }
 
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
     const slectedPairsPoolData = poolData[`${sortedCoins[0]}/${sortedCoins[1]}`]
 
     const price = slectedPairsPoolData[coinA] / slectedPairsPoolData[coinB]

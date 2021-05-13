@@ -110,7 +110,11 @@ function CoinSelectModal({ isOpen, toggle, selectCoin }: { isOpen: boolean, togg
     function generateCoinList(pairs, keyword, counterPair) {
         let listPairs = []
         pairs.forEach((item) => {
-            listPairs.push(item.coinDenom.toLowerCase())
+            let coinDenom = item.coinDenom
+            if (!coinDenom.startsWith('bc') ) {
+                coinDenom = coinDenom.toLowerCase()
+            }
+            listPairs.push(coinDenom)
         })
 
         if (keyword !== '') {
@@ -132,7 +136,7 @@ function CoinSelectModal({ isOpen, toggle, selectCoin }: { isOpen: boolean, togg
                     }} key={index}>
                     <div className="coin-info">
                         {checkImageExsistence(pair) ? <img className="coin-img" src={`/assets/coins/${pair}.png`} alt="coin pair" /> : <div className="coin-img" style={{ padding: "3px 0 0 0", textAlign: "center" }}>?</div>}
-                        {pair === "xrun" ? pair.substr(1).toUpperCase() : pair.toUpperCase()}
+                        {pair === "xrun" ? pair.substr(1).toUpperCase() : pair.toUpperCase().substr(0,10)}
                     </div>
                     <div className="coin-balance">{pairBalance || 0}</div>
                 </div>

@@ -15,6 +15,12 @@ export const currencies = [
     coinDenom: "IRIS",
     coinMinimalDenom: "uiris",
     coinDecimals: 6
+  },
+  {
+    coinDenom: "bc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+    coinMinimalDenom: "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+    coinDecimals: 6
+      
   }
 ]
 
@@ -30,7 +36,7 @@ export const chainInfo = {
 
   // rpc: "https://competition.bharvest.io",
   // rest: "https://competition.bharvest.io:1317",
-    rpc: "http://localhost:26657",
+  rpc: "http://localhost:26657",
   rest: "http://localhost:1317",
   chainId: "consensus-testnet",
   chainName: "Consensus Testnet",

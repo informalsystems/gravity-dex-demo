@@ -208,7 +208,7 @@ function TokenInputController({ header, amount, coin, counterPair, dispatch, dis
                                     {checkImageExsistence(coin) ? <img className="coin-image" src={`/assets/coins/${coin}.png`} alt="coin pair" /> :
                                         <div className="coin-image" style={{ padding: "1px 0 0 0", textAlign: "center" }}>
                                             ?</div>}
-                                    {coin === "xrun" ? coin.substr(1).toUpperCase() : coin.toUpperCase()}
+                                    {coin === "xrun" ? coin.substr(1).toUpperCase() : coin.toUpperCase().substr(0,10)}
                                 </>
                                 : 'Select a coin '}
                             &nbsp; <CoinSelectorArrow stroke={coin !== '' ? '' : '#fff'} />

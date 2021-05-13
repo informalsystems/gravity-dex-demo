@@ -5,7 +5,14 @@ import { useHistory } from 'react-router-dom'
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { storeSelector } from "../../modules/store/slice"
-import { getMinimalDenomCoin } from '../../utils/global-functions';
+import { getMinimalDenomCoin as getMDC } from '../../utils/global-functions';
+
+function getMinimalDenomCoin(coin) {
+    if (coin.startsWith('bc/')) {
+        return "i" + coin
+    }
+    return getMDC(coin)
+}
 
 const mobileWidth = 500
 const PoolWrapper = styled.div`
@@ -285,6 +292,19 @@ const PoolWrapper = styled.div`
     }
 `
 
+function getX(pool){
+    if (pool.startsWith('bc/')) {
+        return pool.split('/')[0] + "/" + pool.split('/')[1]
+    } 
+    return pool.split('/')[0]
+}
+function getY(pool){
+    if (pool.startsWith('bc/')) {
+        return pool.split('/')[2]
+    }
+    return pool.split('/')[1]
+}
+
 function Pool() {
     const { poolsInfo } = useSelector(liquiditySelector.all)
     const { userBalances } = useSelector(cosmosSelector.all)
@@ -331,13 +351,16 @@ function Pool() {
             for (let pool in data) {
 
                 const pairPoolData = data[pool]
-                const coinX = pool.split('/')[0]
-                const coinY = pool.split('/')[1]
-                const uppercasePoolNames = pool.toUpperCase()
+                const coinX = getX(pool)
+                const coinY = getY(pool)
+                const uppercasePoolNames = coinX.toUpperCase().slice(0,10) + "/" + coinY.toUpperCase() // pool.toUpperCase()
                 const myShare = Math.round(pairPoolData.userPoolData.poolTokenAmount / pairPoolData.pool_coin_amount * 100) / 100
                 // console.log(uppercasePoolNames, pairPoolData.userPoolData.poolTokenAmount, pairPoolData.pool_coin_amount)
+                // for display
+                let coinXD = coinX.slice(0,10)
 
-                if (!pool.startsWith('bc/') && isUser && data[pool].userPoolData.poolTokenAmount) {
+                //!pool.startsWith('bc/')
+                if ( isUser && data[pool].userPoolData.poolTokenAmount) {
                     result.push(
                         (<div className="pool" key={pool + '*'}>
                             <div className="pool-title">
@@ -361,7 +384,7 @@ function Pool() {
                                 </div>
                                 <div className="detail">
                                     <div>Pooled {uppercasePoolNames.split('/')[0]}:</div>
-                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinX.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
+                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
                                 </div>
                                 <div className="detail">
                                     <div>Pooled {uppercasePoolNames.split('/')[1]}:</div>
@@ -380,7 +403,8 @@ function Pool() {
 
                         </div>)
                     )
-                } else if (!isUser && !pool.startsWith('bc/') && pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] !== '0') {
+                  //!pool.startsWith('bc/')
+                } else if (!isUser  && pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] !== '0') {
 
                     result.push(
                         <div className="pool all-pool" key={pool}>
@@ -401,11 +425,11 @@ function Pool() {
                             <input type="checkbox" className="checkbox" id={pool + '*'} />
                             <div className="pool-details">
                                 <div className="detail">
-                                    <div>Total Pooled {uppercasePoolNames.split('/')[0]}:</div>
-                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinX.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
+                                    <div>Total Pooled {coinXD.toUpperCase()}:</div>
+                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
                                 </div>
                                 <div className="detail">
-                                    <div>Total Pooled {uppercasePoolNames.split('/')[1]}:</div>
+                                    <div>Total Pooled {coinY.toUpperCase()}:</div>
                                     <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinY)] / 1000000, 4)} {coinY.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinY}.png`} alt="pairY" /></div>
                                 </div>
 
