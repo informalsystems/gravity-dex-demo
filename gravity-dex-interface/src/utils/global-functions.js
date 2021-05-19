@@ -78,9 +78,20 @@ export function getSelectedPairsPoolData(state, action, counterTarget, poolData)
     let coinB = action.payload.coin
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
     const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
-    let key = `${sortedCoins[0]}/${sortedCoins[1]}`
+    let key = normalizeKey(sortedCoins, poolData) 
     const selectedPairsPoolData = poolData?.[key]
     return selectedPairsPoolData === undefined ? false : selectedPairsPoolData
+}
+
+function normalizeKey(sortedCoins, poolData) {
+    let key = `${sortedCoins[0]}/${sortedCoins[1]}`
+    const selectedPairsPoolData = poolData?.[key]
+    // hack to try the reverse order for the key since sorting might be wrong 
+    // for reasons I don't really understand yet (probably due to the u slicing somewhere) ...
+    if (selectedPairsPoolData === undefined ){
+        key = `${sortedCoins[1]}/${sortedCoins[0]}`
+    }
+    return key
 }
 
 export function getPoolPrice(state, action, counterTarget, poolData) {
@@ -96,12 +107,14 @@ export function getPoolPrice(state, action, counterTarget, poolData) {
 
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
     const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
-    const slectedPairsPoolData = poolData[`${sortedCoins[0]}/${sortedCoins[1]}`]
+    let key = normalizeKey(sortedCoins, poolData)
+    const slectedPairsPoolData = poolData[key]
 
     const price = slectedPairsPoolData[coinA] / slectedPairsPoolData[coinB]
 
     return price
 }
+
 
 
 
