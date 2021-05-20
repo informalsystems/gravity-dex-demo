@@ -117,6 +117,12 @@ function ConnectWalletModal({ close, priceData, userBalances, totalValue }: { cl
 
             const pairBalance = (Math.floor(balance[pair] / 1000000 * 100) / 100).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 
+
+            let coinImage = coinName;
+            if ( coinImage.startsWith("bc") ){
+                coinImage = "mum"
+            }
+
             result.push(
                 <div className="row"
                     onClick={() => {
@@ -124,7 +130,7 @@ function ConnectWalletModal({ close, priceData, userBalances, totalValue }: { cl
                     }} key={pair}>
                     <div className="coin-info">
                         {checkImageExsistence(coinName) ?
-                            <img className="coin-img" src={`/assets/coins/${coinName}.png`} alt="coin pair" />
+                            <img className="coin-img" src={`/assets/coins/${coinImage}.png`} alt="coin pair" />
                             : <div className="coin-img" style={{ padding: "3px 0 0 0", textAlign: "center" }}>
                                 ?</div>}{coinName === "pool" ? `${poolTokenIndexer[pair].toUpperCase()} POOL` : coinName.toUpperCase()}
                     </div>
