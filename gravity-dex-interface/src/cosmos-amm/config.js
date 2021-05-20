@@ -53,5 +53,5 @@ export const chainInfo = {
       coinDecimals: 6
     }
   ],
-  features: ["stargate"]
+  features: ["stargate", "ibc-transfer"]
 };
