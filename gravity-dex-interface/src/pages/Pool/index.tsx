@@ -6,6 +6,7 @@ import { liquiditySelector } from "../../modules/liquidityRest/slice"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { storeSelector } from "../../modules/store/slice"
 import { getMinimalDenomCoin as getMDC } from '../../utils/global-functions';
+import { ibcCoinImage } from '../../utils/global-functions';
 
 function getMinimalDenomCoin(coin) {
     if (coin.startsWith('bc/')) {
@@ -346,6 +347,7 @@ function Pool() {
                 }
             }
             // console.log(data)
+            
 
 
             for (let pool in data) {
@@ -359,6 +361,9 @@ function Pool() {
                 // for display
                 let coinXD = coinX.slice(0,10)
 
+                let coinXImage = ibcCoinImage(coinX);
+                let coinYImage = ibcCoinImage(coinY);
+
                 //!pool.startsWith('bc/')
                 if ( isUser && data[pool].userPoolData.poolTokenAmount) {
                     result.push(
@@ -367,8 +372,8 @@ function Pool() {
 
                                 <div className="pool-name">
                                     <div className="wrapper">
-                                        <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" />
-                                        <img className="coin-img" src={`/assets/coins/${coinY}.png`} alt="pairY" />
+                                        <img className="coin-img" src={`/assets/coins/${coinXImage}.png`} alt="pairX" />
+                                        <img className="coin-img" src={`/assets/coins/${coinYImage}.png`} alt="pairY" />
                                     </div>
                                     <div>{uppercasePoolNames}</div>
                                 </div>
@@ -384,11 +389,11 @@ function Pool() {
                                 </div>
                                 <div className="detail">
                                     <div>Pooled {uppercasePoolNames.split('/')[0]}:</div>
-                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
+                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinXImage}.png`} alt="pairX" /></div>
                                 </div>
                                 <div className="detail">
                                     <div>Pooled {uppercasePoolNames.split('/')[1]}:</div>
-                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinY)] / 1000000, 4)} {coinY.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinY}.png`} alt="pairY" /></div>
+                                    <div className="detail-amount">{cutNumber(myShare * pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinY)] / 1000000, 4)} {coinY.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinYImage}.png`} alt="pairY" /></div>
                                 </div>
                                 <div className="detail">
                                     <div>Your pool share:</div>
@@ -411,8 +416,8 @@ function Pool() {
                             <div className="pool-title">
                                 <div className="pool-name">
                                     <div className="wrapper">
-                                        <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" />
-                                        <img className="coin-img" src={`/assets/coins/${coinY}.png`} alt="pairY" />
+                                        <img className="coin-img" src={`/assets/coins/${coinXImage}.png`} alt="pairX" />
+                                        <img className="coin-img" src={`/assets/coins/${coinYImage}.png`} alt="pairY" />
                                     </div>
                                     <div>
                                         {uppercasePoolNames}
@@ -426,11 +431,11 @@ function Pool() {
                             <div className="pool-details">
                                 <div className="detail">
                                     <div>Total Pooled {coinXD.toUpperCase()}:</div>
-                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinX}.png`} alt="pairX" /></div>
+                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinX)] / 1000000, 4)} {coinXD.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinXImage}.png`} alt="pairX" /></div>
                                 </div>
                                 <div className="detail">
                                     <div>Total Pooled {coinY.toUpperCase()}:</div>
-                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinY)] / 1000000, 4)} {coinY.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinY}.png`} alt="pairY" /></div>
+                                    <div className="detail-amount">{cutNumber(pairPoolData.reserve_coin_balances[getMinimalDenomCoin(coinY)] / 1000000, 4)} {coinY.toUpperCase()} <img className="coin-img" src={`/assets/coins/${coinYImage}.png`} alt="pairY" /></div>
                                 </div>
 
 

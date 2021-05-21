@@ -1,5 +1,3 @@
-us
-
 MIL=000000
 TRIL="1${MIL}${MIL}"
 

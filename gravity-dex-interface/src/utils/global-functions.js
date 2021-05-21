@@ -1,6 +1,13 @@
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+export function ibcCoinImage(coin) {
+    if ( coin.startsWith("bc") ){
+        return "atom"
+    }
+    return coin
+}
+
 export function getTokenIndexer(wtl) {
     let tokenIndexer = {}
     if (wtl) {
