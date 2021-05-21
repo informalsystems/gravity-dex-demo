@@ -202,7 +202,7 @@ function SwapCard() {
     const poolData = poolsInfo?.poolsData
 
     const [state, dispatch] = React.useReducer(reducer, {
-        fromCoin: 'atom',
+        fromCoin: 'aurum',
         toCoin: '',
         fromAmount: '',
         toAmount: '',

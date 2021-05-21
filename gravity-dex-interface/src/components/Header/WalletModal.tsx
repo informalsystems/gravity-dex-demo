@@ -120,7 +120,7 @@ function ConnectWalletModal({ close, priceData, userBalances, totalValue }: { cl
 
             let coinImage = coinName;
             if ( coinImage.startsWith("bc") ){
-                coinImage = "mum"
+                coinImage = "atom"
             }
 
             result.push(

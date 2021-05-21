@@ -2,18 +2,23 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 
 export const currencies = [
   {
-    coinDenom: "AKT",
-    coinMinimalDenom: "uakt",
+    coinDenom: "FECAL",
+    coinMinimalDenom: "ufecal",
     coinDecimals: 6
   },
   {
-    coinDenom: "ATOM",
-    coinMinimalDenom: "uatom",
+    coinDenom: "AURUM",
+    coinMinimalDenom: "uaurum",
     coinDecimals: 6
   },
   {
-    coinDenom: "IRIS",
-    coinMinimalDenom: "uiris",
+    coinDenom: "OAK",
+    coinMinimalDenom: "uoak",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "MUSK",
+    coinMinimalDenom: "umusk",
     coinDecimals: 6
   },
   {
@@ -25,8 +30,8 @@ export const currencies = [
 ]
 
 export const stakingCurrency = {
-  coinDenom: "ATOM",
-  coinMinimalDenom: "uatom",
+  coinDenom: "AURUM",
+  coinMinimalDenom: "uaurum",
   coinDecimals: 6
 };
 
@@ -38,8 +43,8 @@ export const chainInfo = {
   // rest: "https://competition.bharvest.io:1317",
   rpc: "http://localhost:26657",
   rest: "http://localhost:1317",
-  chainId: "consensus-testnet",
-  chainName: "Consensus Testnet",
+  chainId: "informalex",
+  chainName: "Informalex",
   stakeCurrency: stakingCurrency,
   bip44: {
     coinType: 118
@@ -48,8 +53,8 @@ export const chainInfo = {
   currencies: [stakingCurrency].concat(currencies),
   feeCurrencies: [
     {
-      coinDenom: "ATOM",
-      coinMinimalDenom: "uatom",
+      coinDenom: "AURUM",
+      coinMinimalDenom: "uaurum",
       coinDecimals: 6
     }
   ],

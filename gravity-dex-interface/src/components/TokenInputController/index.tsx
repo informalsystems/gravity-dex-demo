@@ -175,7 +175,7 @@ function TokenInputController({ header, amount, coin, counterPair, dispatch, dis
 
     let coinImage = coin;
     if ( coinImage.startsWith("bc") ){
-        coinImage = "mum"
+        coinImage = "atom"
     }
 
     return (

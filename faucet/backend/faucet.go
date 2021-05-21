@@ -30,6 +30,10 @@ var amountIris string
 var amountRun string
 var amountCom string
 var amountDsm string
+var amountFecal string
+var amountAurum string
+var amountOak string
+var amountMusk string
 
 var key string
 var pass string
@@ -54,9 +58,10 @@ func main() {
 	}
 
 	chain = getEnv("FAUCET_CHAIN")
-	amountAtom = getEnv("FAUCET_AMOUNT_ATOM")
-	amountAkt = getEnv("FAUCET_AMOUNT_AKT")
-	amountIris = getEnv("FAUCET_AMOUNT_IRIS")
+	amountFecal = getEnv("FAUCET_AMOUNT_FECAL")
+	amountAurum = getEnv("FAUCET_AMOUNT_AURUM")
+	amountOak = getEnv("FAUCET_AMOUNT_OAK")
+	amountMusk = getEnv("FAUCET_AMOUNT_MUSK")
 
 	key = getEnv("FAUCET_KEY")
 	pass = getEnv("FAUCET_PASS")
@@ -119,8 +124,8 @@ func getCoinsHandler(w http.ResponseWriter, request *http.Request) {
 	}
 	already = append(already, address)
 
-	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v,%v,%v --chain-id=%v -y --home ~/.liquidityapp",
-		key, address, amountAtom, amountAkt, amountIris, chain)
+	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v,%v,%v,%v --chain-id=%v -y --home ~/.liquidityapp",
+		key, address, amountFecal, amountAurum, amountOak, amountMusk, chain)
 	fmt.Println(sendFaucet)
 	fmt.Println(time.Now().UTC().Format(time.RFC3339), address, "[1]")
 	executeCmd(sendFaucet, pass)

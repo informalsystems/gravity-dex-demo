@@ -129,7 +129,7 @@ function CoinSelectModal({ isOpen, toggle, selectCoin }: { isOpen: boolean, togg
 
             let coinImage = pair;
             if ( coinImage.startsWith("bc") ){
-                coinImage = "mum"
+                coinImage = "atom"
             }
 
             const pairBalance = Math.floor(userBalances[getMinimalDenomCoin(pair)] / 10000) / 100
