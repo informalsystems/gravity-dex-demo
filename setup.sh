@@ -4,7 +4,7 @@ TRIL="1${MIL}${MIL}"
 STAKE="${TRIL}uaurum"
 COINS="${TRIL}ufecal,${TRIL}uaurum,${TRIL}uoak,${TRIL}umusk"
 
-CHAINID=informalex
+CHAINID=coindesk-testnet-1
 
 
 # Initialize and add keys
