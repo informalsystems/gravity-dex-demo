@@ -274,7 +274,7 @@ function CreateCard() {
     async function create() {
         // const sortedCoins = [state.fromCoin, state.toCoin].sort()
         const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-        const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+        const sortedCoins = [uSlice(preSortedCoins[0]), uSlice( preSortedCoins[1])]
         let isReverse = false
         if (state.fromCoin !== sortedCoins[0]) {
             isReverse = true

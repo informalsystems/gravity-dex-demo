@@ -7,7 +7,7 @@ import CoinSelectorArrow from "../../assets/svgs/CoinSelectorArrow"
 import CoinSelectModal from "../Modals/CoinSelectModal"
 
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
-import { checkImageExsistence, getMinimalDenomCoin } from "../../utils/global-functions"
+import { checkImageExsistence, getMinimalDenomCoin, denomDisplay, uSliceDisplay } from "../../utils/global-functions"
 
 const Wrapper = styled.div`
     border-radius: 20px;
@@ -214,7 +214,7 @@ function TokenInputController({ header, amount, coin, counterPair, dispatch, dis
                                     {checkImageExsistence(coin) ? <img className="coin-image" src={`/assets/coins/${coinImage}.png`} alt="coin pair" /> :
                                         <div className="coin-image" style={{ padding: "1px 0 0 0", textAlign: "center" }}>
                                             ?</div>}
-                                    {coin === "xrun" ? coin.substr(1).toUpperCase() : coin.toUpperCase().substr(0,10)}
+                                    {coin === "xrun" ? uSliceDisplay(coin) : denomDisplay(coin)}
                                 </>
                                 : 'Select a coin '}
                             &nbsp; <CoinSelectorArrow stroke={coin !== '' ? '' : '#fff'} />

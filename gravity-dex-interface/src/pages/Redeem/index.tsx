@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from "styled-components"
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom'
-import { cutNumber, getMinimalDenomCoin } from "../../utils/global-functions"
+import { cutNumber, getMinimalDenomCoin, uSlice } from "../../utils/global-functions"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
 import { BroadcastLiquidityTx } from "../../cosmos-amm/tx-client.js"
@@ -180,7 +180,7 @@ function RedeemCard() {
     let userShare = null
 
     const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-    const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
     if (poolsData && poolsData[`${sortedCoins[0]}/${sortedCoins[1]}`]) {
         const reserveCoins = poolsData[`${sortedCoins[0]}/${sortedCoins[1]}`].reserve_coin_balances
         coinXAmount = reserveCoins[`${getMinimalDenomCoin(state.fromCoin)}`]
@@ -220,7 +220,7 @@ function RedeemCard() {
 
     async function redeem() {
         const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-        const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+        const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
         BroadcastLiquidityTx({
             type: 'msgWithdraw',
             data: {

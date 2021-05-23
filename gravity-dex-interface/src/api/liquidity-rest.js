@@ -1,6 +1,7 @@
 import { Api } from '@starport/tendermint-liquidity-js/tendermint/liquidity/tendermint.liquidity.v1beta1/module/rest.js'
 import { queryAllBalances, querySupplyOf } from './bank-rest'
 import { chainInfo } from "../cosmos-amm/config"
+import { uSlice } from "../utils/global-functions"
 
 const liquidityRestApi = new Api({ baseUrl: chainInfo.rest })
 
@@ -22,7 +23,7 @@ export const queryLiquidityPools = async () => {
         let poolTokenIndexer = {}
 
         response.data.pools.forEach((pool, index) => {
-            const poolName = `${pool.reserve_coin_denoms[0].substr(1)}/${pool.reserve_coin_denoms[1].substr(1)}`
+            const poolName = `${uSlice(pool.reserve_coin_denoms[0])}/${uSlice(pool.reserve_coin_denoms[1])}`
             modifiedPoolsData[poolName] = {
                 id: pool.id,
                 pool_coin_denom: pool.pool_coin_denom,

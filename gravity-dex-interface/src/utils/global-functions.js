@@ -73,7 +73,26 @@ export function checkImageExsistence(coinName) {
     }
 }
 
-function uSlice(coin) {
+export function denomDisplay(coin) {
+    return coin.toUpperCase().substr(0,10)
+}
+
+export function uSliceDisplay(coin) {
+    return uSliceUpper(coin).substr(0, 10)
+}
+
+export function uSliceUpper(coin) {
+    return uSlice(coin).toUpperCase()
+}
+
+export function uSlice(coin) {
+   if (coin.startsWith("bc")) { // TODO add the i
+       return coin.substr(0)
+   }
+   return coin.substr(1)
+}
+
+function uSlice2(coin) {
    /*if (coin.startsWith("ibc")) {
        return coin.substr(0)
    }*/
@@ -84,7 +103,7 @@ export function getSelectedPairsPoolData(state, action, counterTarget, poolData)
     let coinA = state[`${counterTarget}Coin`]
     let coinB = action.payload.coin
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
+    const sortedCoins = [uSlice2(preSortedCoins[0]), uSlice2(preSortedCoins[1])]
     let key = normalizeKey(sortedCoins, poolData) 
     const selectedPairsPoolData = poolData?.[key]
     return selectedPairsPoolData === undefined ? false : selectedPairsPoolData
@@ -113,7 +132,7 @@ export function getPoolPrice(state, action, counterTarget, poolData) {
     }
 
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
+    const sortedCoins = [uSlice2(preSortedCoins[0]), uSlice2(preSortedCoins[1])]
     let key = normalizeKey(sortedCoins, poolData)
     const slectedPairsPoolData = poolData[key]
 

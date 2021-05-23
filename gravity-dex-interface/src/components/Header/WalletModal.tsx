@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useSelector } from "react-redux"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
-import { checkImageExsistence } from "../../utils/global-functions"
+import { checkImageExsistence, uSlice } from "../../utils/global-functions"
 
 
 // useDispatch,
@@ -101,7 +101,7 @@ function ConnectWalletModal({ close, priceData, userBalances, totalValue }: { cl
         let result = []
 
         for (let pair in balance) {
-            let coinName = pair.substr(1)
+            let coinName = uSlice(pair)
 
             if (pair.startsWith('pool')) {
                 coinName = "pool"

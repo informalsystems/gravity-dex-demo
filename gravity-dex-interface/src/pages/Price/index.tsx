@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as React from 'react'
 import styled from "styled-components"
-import { cutNumber } from "../../utils/global-functions"
+import { cutNumber, uSliceUpper } from "../../utils/global-functions"
 import { useHistory } from 'react-router-dom'
 
 import Tooltip from "../../components/Tooltips/QuestionMarkTooltip"
@@ -172,8 +172,8 @@ function Table() {
       let priceData = [];
       const response = await axios.get("https://competition.bharvest.io:8081/pools")
       response.data.pools.forEach((pool, index) => {
-        const xCoinName = `${pool.reserveCoins[0].denom.substr(1).toUpperCase()}`
-        const yCoinName = `${pool.reserveCoins[1].denom.substr(1).toUpperCase()}`
+        const xCoinName = `${uSliceUpper(pool.reserveCoins[0].denom)}`
+        const yCoinName = `${uSliceUpper(pool.reserveCoins[1].denom)}`
         const poolName = `${xCoinName}-${yCoinName}`
 
         const xGlobalPrice = Number(cutNumber(pool.reserveCoins[0].globalPrice * 1000000, 4))

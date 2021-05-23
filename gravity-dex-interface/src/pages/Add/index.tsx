@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from "styled-components"
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom'
-import { cutNumber, getMinimalDenomCoin } from "../../utils/global-functions"
+import { cutNumber, getMinimalDenomCoin, uSlice } from "../../utils/global-functions"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
 
@@ -157,7 +157,7 @@ function AddLiquidityCard() {
     let coinXAmount = null
     let coinYAmount = null
     const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-    const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
 
     if (poolsData && poolsData[`${sortedCoins[0]}/${sortedCoins[1]}`]) {
         const reserveCoins = poolsData[`${sortedCoins[0]}/${sortedCoins[1]}`].reserve_coin_balances
@@ -187,7 +187,7 @@ function AddLiquidityCard() {
 
         const poolsData = poolsInfo?.poolsData
         const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-        const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+        const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
 
         let coinXAmount = null
         let coinYAmount = null
@@ -294,7 +294,7 @@ function AddLiquidityCard() {
 
     async function add() {
         const preSortedCoins = [getMinimalDenomCoin(state.fromCoin), getMinimalDenomCoin(state.toCoin)].sort()
-        const sortedCoins = [preSortedCoins[0].substr(1), preSortedCoins[1].substr(1)]
+        const sortedCoins = [uSlice(preSortedCoins[0]),uSlice(preSortedCoins[1])]
         let isReverse = false
         if (state.fromCoin !== sortedCoins[0]) {
             isReverse = true

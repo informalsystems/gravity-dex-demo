@@ -364,6 +364,7 @@ function Pool() {
                 let coinXImage = ibcCoinImage(coinX);
                 let coinYImage = ibcCoinImage(coinY);
 
+console.log("COINS", coinXImage, coinYImage)
                 //!pool.startsWith('bc/')
                 if ( isUser && data[pool].userPoolData.poolTokenAmount) {
                     result.push(

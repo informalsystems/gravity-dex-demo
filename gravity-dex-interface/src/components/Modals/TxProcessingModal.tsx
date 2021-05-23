@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import BasicModal from "./BasicModal"
 import styled from "styled-components"
 import { storeSelector } from "../../modules/store/slice"
-import { checkImageExsistence } from "../../utils/global-functions"
+import { checkImageExsistence, uSlice, uSliceUpper, denomDisplay} from "../../utils/global-functions"
 
 const SelectCoinWrapper = styled.div`
 @media(max-width: 500px) {
@@ -240,11 +240,11 @@ function getResultMessage(type, result) {
                             </div>
                             <div className="detail">
                                 <div className="title">Received : </div>
-                                <div className="body"><span className="green">+ {coinAAmount}</span> {coinA[1].substr(1).toUpperCase()}</div>
+                                <div className="body"><span className="green">+ {coinAAmount}</span> {uSliceUpper(coinA[1])}</div>
                             </div>
                             <div className="detail">
                                 <div className="title"> </div>
-                                <div className="body"><span className="green">+ {coinBAmount}</span> {coinB[1].substr(1).toUpperCase()}</div>
+                                <div className="body"><span className="green">+ {coinBAmount}</span> {uSliceUpper(coinB[1])}</div>
                             </div>
                         </>
                     )
@@ -266,11 +266,11 @@ function getResultMessage(type, result) {
                             </div>
                             <div className="detail">
                                 <div className="title">Added to pool: </div>
-                                <div className="body"><span className="red">+ {AAmount}</span> {A[1].substr(1).toUpperCase()}</div>
+                                <div className="body"><span className="red">+ {AAmount}</span> {uSliceUpper(A[1])}</div>
                             </div>
                             <div className="detail">
                                 <div className="title"> </div>
-                                <div className="body"><span className="red">+ {BAmount}</span> {B[1].substr(1).toUpperCase()}</div>
+                                <div className="body"><span className="red">+ {BAmount}</span> {uSliceUpper(B[1])}</div>
                             </div>
                             <div className="detail">
                                 <div className="title">Received : </div>
@@ -279,8 +279,8 @@ function getResultMessage(type, result) {
                         </>
                     )
                 case 'Swap':
-                    const paidDenom = result.data.offer_coin_denom.startsWith('u') ? result.data.offer_coin_denom.substr(1) : result.data.offer_coin_denom
-                    const receivedDenom = result.data.demand_coin_denom.startsWith('u') ? result.data.demand_coin_denom.substr(1) : result.data.demand_coin_denom
+                    const paidDenom = uSlice(result.data.offer_coin_denom) 
+                    const receivedDenom = uSlice(result.data.demand_coin_denom) 
 
                     const isRevese = [paidDenom, receivedDenom].sort()[0] === paidDenom ? false : true
 
@@ -296,11 +296,11 @@ function getResultMessage(type, result) {
                             </div>
                             <div className="detail">
                                 <div className="title">Paid : </div>
-                                <div className="body"><span className="red">- {paidAmount}</span> {paidDenom === "xrun" ? paidDenom.substr(1).toUpperCase() : paidDenom.toUpperCase()}</div>
+                                <div className="body"><span className="red">- {paidAmount}</span> {paidDenom === "xrun" ? uSliceUpper(paidDenom) : denomDisplay(paidDenom)}</div>
                             </div>
                             <div className="detail">
                                 <div className="title">Received : </div>
-                                <div className="body"><span className="green">+ {receivedAmount}</span> {receivedDenom === "xrun" ? receivedDenom.substr(1).toUpperCase() : receivedDenom.toUpperCase()}</div>
+                                <div className="body"><span className="green">+ {receivedAmount}</span> {receivedDenom === "xrun" ? uSliceUpper(receivedDenom) : receivedDenom.toUpperCase()}</div>
                             </div>
                         </>
                     )
@@ -330,7 +330,7 @@ function TxProcessingModal({ isOpen, toggle }: { isOpen: boolean, toggle: any, }
             if (type !== "Swap") {
                 history.push('/pool')
             } else {
-                history.push(`/swap?from=${txModalData.resultData.data.offer_coin_denom.substr(1)}&to=${txModalData.resultData.data.demand_coin_denom.substr(1)}&time=${new Date().getTime()}`)
+                history.push(`/swap?from=${uSlice(txModalData.resultData.data.offer_coin_denom)}&to=${uSlice(txModalData.resultData.data.demand_coin_denom)}&time=${new Date().getTime()}`)
             }
         }
 
