@@ -79,56 +79,44 @@ export function uSliceUpper(coin) {
 }
 
 export function uSlice(coin) {
-   if (coin.startsWith("bc")) { // TODO add the i
+   if (coin.startsWith("ibc")) {
        return coin.substr(0)
-   } /*else if (coin.startsWith("u")) {
-        return coin.substr(1)
-   }
-   return coin.substr(0)
-   */
+   } 
    return coin.substr(1)
 }
 
 export function ibcCoinImage(coin) {
-    if ( coin.startsWith("bc") ){ // TODO add the i
+    if ( coin.startsWith("ibc") ){
         return "atom"
     }
     return coin
 }
 
 export function denomLower(coinDenom) {
-    if (!coinDenom.startsWith('bc') ) {  // TODO
+    if (!coinDenom.startsWith('ibc') ) {
         return coinDenom.toLowerCase()
     }
     return coinDenom
 }
 
 export function getX(pool){
-    if (pool.startsWith('bc/')) { // TODO
+    if (pool.startsWith('ibc/')) {
         return pool.split('/')[0] + "/" + pool.split('/')[1]
     } 
     return pool.split('/')[0]
 }
 export function getY(pool){
-    if (pool.startsWith('bc/')) { // TODO
+    if (pool.startsWith('ibc/')) {
         return pool.split('/')[2]
     }
     return pool.split('/')[1]
-}
-
-
-function uSlice2(coin) {
-   /*if (coin.startsWith("ibc")) {
-       return coin.substr(0)
-   }*/
-   return coin.substr(1)
 }
 
 export function getSelectedPairsPoolData(state, action, counterTarget, poolData) {
     let coinA = state[`${counterTarget}Coin`]
     let coinB = action.payload.coin
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [uSlice2(preSortedCoins[0]), uSlice2(preSortedCoins[1])]
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
     let key = normalizeKey(sortedCoins, poolData) 
     const selectedPairsPoolData = poolData?.[key]
     return selectedPairsPoolData === undefined ? false : selectedPairsPoolData
@@ -139,6 +127,7 @@ function normalizeKey(sortedCoins, poolData) {
     const selectedPairsPoolData = poolData?.[key]
     // hack to try the reverse order for the key since sorting might be wrong 
     // for reasons I don't really understand yet (probably due to the u slicing somewhere) ...
+    // TODO can prob get rid of this now that the slicing is fixed
     if (selectedPairsPoolData === undefined ){
         key = `${sortedCoins[1]}/${sortedCoins[0]}`
     }
@@ -157,7 +146,7 @@ export function getPoolPrice(state, action, counterTarget, poolData) {
     }
 
     const preSortedCoins = [getMinimalDenomCoin(coinA), getMinimalDenomCoin(coinB)].sort()
-    const sortedCoins = [uSlice2(preSortedCoins[0]), uSlice2(preSortedCoins[1])]
+    const sortedCoins = [uSlice(preSortedCoins[0]), uSlice(preSortedCoins[1])]
     let key = normalizeKey(sortedCoins, poolData)
     const slectedPairsPoolData = poolData[key]
 
