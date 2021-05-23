@@ -43,8 +43,8 @@ export const chainInfo = {
   // rest: "https://competition.bharvest.io:1317",
   rpc: "http://localhost:26657",
   rest: "http://localhost:1317",
-  chainId: "informalex",
-  chainName: "Informalex",
+  chainId: "coindesk-testnet-1",
+  chainName: "Informal DeX",
   stakeCurrency: stakingCurrency,
   bip44: {
     coinType: 118

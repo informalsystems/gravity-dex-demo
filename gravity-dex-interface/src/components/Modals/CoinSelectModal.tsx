@@ -5,7 +5,7 @@ import BasicModal from "./BasicModal"
 import styled from "styled-components"
 import { currencies } from "../../cosmos-amm/config"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
-import { checkImageExsistence, getMinimalDenomCoin, uSliceDisplay, denomDisplay} from "../../utils/global-functions"
+import { checkImageExsistence, getMinimalDenomCoin, uSliceDisplay, denomDisplay, ibcCoinImage, denomLower} from "../../utils/global-functions"
 
 const SelectCoinWrapper = styled.div`
 @media(max-width: 500px) {
@@ -110,10 +110,7 @@ function CoinSelectModal({ isOpen, toggle, selectCoin }: { isOpen: boolean, togg
     function generateCoinList(pairs, keyword, counterPair) {
         let listPairs = []
         pairs.forEach((item) => {
-            let coinDenom = item.coinDenom
-            if (!coinDenom.startsWith('bc') ) {
-                coinDenom = coinDenom.toLowerCase()
-            }
+            let coinDenom = denomLower(item.coinDenom)
             listPairs.push(coinDenom)
         })
 
@@ -127,10 +124,7 @@ function CoinSelectModal({ isOpen, toggle, selectCoin }: { isOpen: boolean, togg
                 return null
             }
 
-            let coinImage = pair;
-            if ( coinImage.startsWith("bc") ){
-                coinImage = "atom"
-            }
+            let coinImage = ibcCoinImage(pair);
 
             const pairBalance = Math.floor(userBalances[getMinimalDenomCoin(pair)] / 10000) / 100
             return (

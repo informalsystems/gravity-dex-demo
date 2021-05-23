@@ -1,13 +1,6 @@
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-export function ibcCoinImage(coin) {
-    if ( coin.startsWith("bc") ){
-        return "atom"
-    }
-    return coin
-}
-
 export function getTokenIndexer(wtl) {
     let tokenIndexer = {}
     if (wtl) {
@@ -88,9 +81,41 @@ export function uSliceUpper(coin) {
 export function uSlice(coin) {
    if (coin.startsWith("bc")) { // TODO add the i
        return coin.substr(0)
+   } /*else if (coin.startsWith("u")) {
+        return coin.substr(1)
    }
+   return coin.substr(0)
+   */
    return coin.substr(1)
 }
+
+export function ibcCoinImage(coin) {
+    if ( coin.startsWith("bc") ){ // TODO add the i
+        return "atom"
+    }
+    return coin
+}
+
+export function denomLower(coinDenom) {
+    if (!coinDenom.startsWith('bc') ) {  // TODO
+        return coinDenom.toLowerCase()
+    }
+    return coinDenom
+}
+
+export function getX(pool){
+    if (pool.startsWith('bc/')) { // TODO
+        return pool.split('/')[0] + "/" + pool.split('/')[1]
+    } 
+    return pool.split('/')[0]
+}
+export function getY(pool){
+    if (pool.startsWith('bc/')) { // TODO
+        return pool.split('/')[2]
+    }
+    return pool.split('/')[1]
+}
+
 
 function uSlice2(coin) {
    /*if (coin.startsWith("ibc")) {

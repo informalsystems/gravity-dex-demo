@@ -7,7 +7,7 @@ import CoinSelectorArrow from "../../assets/svgs/CoinSelectorArrow"
 import CoinSelectModal from "../Modals/CoinSelectModal"
 
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
-import { checkImageExsistence, getMinimalDenomCoin, denomDisplay, uSliceDisplay } from "../../utils/global-functions"
+import { checkImageExsistence, getMinimalDenomCoin, denomDisplay, uSliceDisplay, ibcCoinImage } from "../../utils/global-functions"
 
 const Wrapper = styled.div`
     border-radius: 20px;
@@ -173,10 +173,7 @@ function TokenInputController({ header, amount, coin, counterPair, dispatch, dis
     const { userBalances } = useSelector(cosmosSelector.all);
     const userCoinBalance = getUserCoinBalance(coin, userBalances)
 
-    let coinImage = coin;
-    if ( coinImage.startsWith("bc") ){
-        coinImage = "atom"
-    }
+    let coinImage = ibcCoinImage(coin);
 
     return (
         <>

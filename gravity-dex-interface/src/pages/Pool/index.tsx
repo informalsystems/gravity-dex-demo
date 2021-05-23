@@ -6,7 +6,7 @@ import { liquiditySelector } from "../../modules/liquidityRest/slice"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { storeSelector } from "../../modules/store/slice"
 import { getMinimalDenomCoin as getMDC } from '../../utils/global-functions';
-import { ibcCoinImage } from '../../utils/global-functions';
+import { ibcCoinImage, getX, getY } from '../../utils/global-functions';
 
 function getMinimalDenomCoin(coin) {
     if (coin.startsWith('bc/')) {
@@ -292,19 +292,6 @@ const PoolWrapper = styled.div`
         }
     }
 `
-
-function getX(pool){
-    if (pool.startsWith('bc/')) {
-        return pool.split('/')[0] + "/" + pool.split('/')[1]
-    } 
-    return pool.split('/')[0]
-}
-function getY(pool){
-    if (pool.startsWith('bc/')) {
-        return pool.split('/')[2]
-    }
-    return pool.split('/')[1]
-}
 
 function Pool() {
     const { poolsInfo } = useSelector(liquiditySelector.all)

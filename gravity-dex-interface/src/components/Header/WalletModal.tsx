@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useSelector } from "react-redux"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
-import { checkImageExsistence, uSlice } from "../../utils/global-functions"
+import { checkImageExsistence, uSlice, ibcCoinImage } from "../../utils/global-functions"
 
 
 // useDispatch,
@@ -118,10 +118,7 @@ function ConnectWalletModal({ close, priceData, userBalances, totalValue }: { cl
             const pairBalance = (Math.floor(balance[pair] / 1000000 * 100) / 100).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
 
 
-            let coinImage = coinName;
-            if ( coinImage.startsWith("bc") ){
-                coinImage = "atom"
-            }
+            let coinImage = ibcCoinImage(coinName);
 
             result.push(
                 <div className="row"
