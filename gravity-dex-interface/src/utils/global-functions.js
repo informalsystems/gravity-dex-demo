@@ -67,11 +67,11 @@ export function checkImageExsistence(coinName) {
 }
 
 export function denomDisplay(coin) {
-    return coin.toUpperCase().substr(0,10)
+    return coin.toUpperCase().substr(0,12)
 }
 
 export function uSliceDisplay(coin) {
-    return uSliceUpper(coin).substr(0, 10)
+    return uSliceUpper(coin).substr(0, 12)
 }
 
 export function uSliceUpper(coin) {
@@ -236,11 +236,7 @@ export function getPoolToken(pl, wt) {
             myTokenAmount = myPoolTokens[ele.liquidity_pool.pool_coin_denom];
         }
         return {
-            coinDenom: `${ele.liquidity_pool.reserve_coin_denoms[0]
-                .substr(1)
-                .toUpperCase()}-${ele.liquidity_pool.reserve_coin_denoms[1]
-                    .substr(1)
-                    .toUpperCase()}`,
+            coinDenom: `${uSliceUpper(ele.liquidity_pool.reserve_coin_denoms[0])}-${uSliceUpper(ele.liquidity_pool.reserve_coin_denoms[1])}`,
             tokenDenom: [
                 ele.liquidity_pool.reserve_coin_denoms[0],
                 ele.liquidity_pool.reserve_coin_denoms[1]
