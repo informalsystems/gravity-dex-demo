@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from "styled-components"
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom'
-import { cutNumber, getMinimalDenomCoin } from "../../utils/global-functions"
+import { cutNumber, getMinimalDenomCoin, uSlice } from "../../utils/global-functions"
 import { cosmosSelector } from "../../modules/cosmosRest/slice"
 import { liquiditySelector } from "../../modules/liquidityRest/slice"
 
