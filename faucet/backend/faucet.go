@@ -3,7 +3,9 @@ package main
 import (
 	//"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"sync"
 
 	"github.com/joho/godotenv"
 	//"github.com/tendermint/tmlibs/bech32"
@@ -66,19 +68,23 @@ func main() {
 	}
 }
 
-func executeCmd(command string, writes ...string) {
-	cmd, wc, _ := goExecute(command)
+var mtx sync.Mutex
+
+func executeCmd(command string, writes ...string) (string, error) {
+	fmt.Println(time.Now().UTC().Format(time.RFC3339), command)
+	cmd, wc, out := goExecute(command)
 
 	for _, write := range writes {
 		wc.Write([]byte(write + "\n"))
 	}
-	cmd.Wait()
+	b, _ := ioutil.ReadAll(out)
+	return string(b), cmd.Wait()
 }
 
 func goExecute(command string) (cmd *exec.Cmd, pipeIn io.WriteCloser, pipeOut io.ReadCloser) {
 	cmd = getCmd(command)
 	pipeIn, _ = cmd.StdinPipe()
-	pipeOut, _ = cmd.StdoutPipe()
+	pipeOut, _ = cmd.StderrPipe()
 	go cmd.Start()
 	time.Sleep(2 * time.Second)
 	return cmd, pipeIn, pipeOut
@@ -113,15 +119,22 @@ func getCoinsHandler(w http.ResponseWriter, request *http.Request) {
 			return
 		}
 	}
-	already = append(already, address)
+
+	mtx.Lock()
+	defer mtx.Unlock()
 
 	coinsString := faucetCoins()
 
-	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v --chain-id=%v -y --home ~/.liquidityapp",
+	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v --chain-id=%v -y --home ~/.liquidityapp --broadcast-mode sync",
 		key, address, coinsString, chain)
-	fmt.Println(sendFaucet)
-	fmt.Println(time.Now().UTC().Format(time.RFC3339), address, "[1]")
-	executeCmd(sendFaucet, pass)
+	output, err := executeCmd(sendFaucet, pass)
+	if err != nil {
+		fmt.Println(output)
+		fmt.Fprintf(w, "Something went wrong. Please try again")
+		return
+	}
+
+	already = append(already, address)
 	fmt.Fprintf(w, "Your faucet request has been processed successfully. Please check your wallet :)")
 
 	return
