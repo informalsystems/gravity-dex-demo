@@ -1,18 +1,30 @@
-MIL=000000
-TRIL="1${MIL}${MIL}"
 
-STAKE="${TRIL}uaurum"
-COINS="${TRIL}ufecal,${TRIL}uaurum,${TRIL}uoak,${TRIL}umusk"
 
-CHAINID=coindesk-testnet-1
+CHAINID=informal-testnet-1
+
+Z6=000000
+TRIL="1${Z6}${Z6}"
+BALANCE="100${Z6}${Z6}"
+
+COINS_LIST=("mold" "mud" "aurum" "argent" "plumbum" "oak" "berry" "egg" "musk" "pomp" "higgs" "coyote" "taz" "dory" "bucky")
+
+COINS="${BALANCE}ufecal"
+
+# COINS="${TRIL}ufecal,${TRIL}uaurum,${TRIL}uoak,${TRIL}umusk"
+
+for coin in ${COINS_LIST[@]}; do
+    COINS="${COINS},${BALANCE}u${coin}"
+done
+
+echo COINS
 
 
 # Initialize and add keys
 liquidityd init node-01 --chain-id $CHAINID
-liquidityd keys add validator --keyring-backend test --output json > validator_key.json
-liquidityd keys add relayer --keyring-backend test --output json > relayer_key.json
-liquidityd keys add faucet --keyring-backend test --output json > faucet_key.json
-liquidityd keys add user1 --keyring-backend test --output json > user1_key.json
+#liquidityd keys add validator --keyring-backend test --output json > validator_key.json
+#liquidityd keys add relayer --keyring-backend test --output json > relayer_key.json
+#liquidityd keys add faucet --keyring-backend test --output json > faucet_key.json
+#liquidityd keys add user1 --keyring-backend test --output json > user1_key.json
 
 # Add genesis accounts and provide coins to the accounts
 liquidityd add-genesis-account $(liquidityd keys show validator --keyring-backend test -a) $COINS

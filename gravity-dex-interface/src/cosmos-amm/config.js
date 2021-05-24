@@ -7,8 +7,28 @@ export const currencies = [
     coinDecimals: 6
   },
   {
+    coinDenom: "MOLD",
+    coinMinimalDenom: "umold",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "MUD",
+    coinMinimalDenom: "umud",
+    coinDecimals: 6
+  },
+  {
     coinDenom: "AURUM",
     coinMinimalDenom: "uaurum",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "ARGENT",
+    coinMinimalDenom: "uargent",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "PLUMBUM",
+    coinMinimalDenom: "uplumbum",
     coinDecimals: 6
   },
   {
@@ -17,8 +37,48 @@ export const currencies = [
     coinDecimals: 6
   },
   {
+    coinDenom: "BERRY",
+    coinMinimalDenom: "uberry",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "EGG",
+    coinMinimalDenom: "uegg",
+    coinDecimals: 6
+  },
+  {
     coinDenom: "MUSK",
     coinMinimalDenom: "umusk",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "POMP",
+    coinMinimalDenom: "upomp",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "HIGGS",
+    coinMinimalDenom: "uhiggs",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "COYOTE",
+    coinMinimalDenom: "ucoyote",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "TAZ",
+    coinMinimalDenom: "utaz",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "DORY",
+    coinMinimalDenom: "udory",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "BUCKY",
+    coinMinimalDenom: "ubucky",
     coinDecimals: 6
   },
   {
@@ -43,7 +103,7 @@ export const chainInfo = {
   // rest: "https://competition.bharvest.io:1317",
   rpc: "http://localhost:26657",
   rest: "http://localhost:1317",
-  chainId: "coindesk-testnet-1",
+  chainId: "informal-testnet-1",
   chainName: "Informal DeX",
   stakeCurrency: stakingCurrency,
   bip44: {
