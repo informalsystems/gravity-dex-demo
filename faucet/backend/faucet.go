@@ -3,6 +3,7 @@ package main
 import (
 	//"encoding/json"
 	"fmt"
+	"math/rand"
 
 	"github.com/joho/godotenv"
 	//"github.com/tendermint/tmlibs/bech32"
@@ -17,23 +18,17 @@ import (
 )
 
 var chain string
-var amountAtom string
-var amountRegen string
-var amountBtsg string
-var amountDvpn string
-var amountXprt string
-var amountAkt string
-var amountLuna string
-var amountNgm string
-var amountGcyb string
-var amountIris string
-var amountRun string
-var amountCom string
-var amountDsm string
-var amountFecal string
-var amountAurum string
-var amountOak string
-var amountMusk string
+
+type coin struct {
+	amt   int
+	denom string
+}
+
+var (
+	coins1 = []coin{{137, "aurum"}, {15240, "fecal"}, {721, "argent"}, {810, "oak"}, {3700, "musk"}, {1200, "coyote"}, {10, "bucky"}}
+	coins2 = []coin{{137, "aurum"}, {15240, "mold"}, {721, "plumbum"}, {810, "berry"}, {3700, "pomp"}, {1200, "taz"}, {10, "bucky"}}
+	coins3 = []coin{{137, "aurum"}, {15240, "mud"}, {721, "plumbum"}, {810, "egg"}, {370, "higgs"}, {1200, "dory"}, {10, "bucky"}}
+)
 
 var key string
 var pass string
@@ -58,10 +53,6 @@ func main() {
 	}
 
 	chain = getEnv("FAUCET_CHAIN")
-	amountFecal = getEnv("FAUCET_AMOUNT_FECAL")
-	amountAurum = getEnv("FAUCET_AMOUNT_AURUM")
-	amountOak = getEnv("FAUCET_AMOUNT_OAK")
-	amountMusk = getEnv("FAUCET_AMOUNT_MUSK")
 
 	key = getEnv("FAUCET_KEY")
 	pass = getEnv("FAUCET_PASS")
@@ -124,12 +115,39 @@ func getCoinsHandler(w http.ResponseWriter, request *http.Request) {
 	}
 	already = append(already, address)
 
-	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v,%v,%v,%v --chain-id=%v -y --home ~/.liquidityapp",
-		key, address, amountFecal, amountAurum, amountOak, amountMusk, chain)
+	coinsString := faucetCoins()
+
+	sendFaucet := fmt.Sprintf("liquidityd tx --keyring-backend test bank send %v %v %v --chain-id=%v -y --home ~/.liquidityapp",
+		key, address, coinsString, chain)
 	fmt.Println(sendFaucet)
 	fmt.Println(time.Now().UTC().Format(time.RFC3339), address, "[1]")
 	executeCmd(sendFaucet, pass)
 	fmt.Fprintf(w, "Your faucet request has been processed successfully. Please check your wallet :)")
 
 	return
+}
+
+func faucetCoins() string {
+
+	var coins []coin
+	switch rand.Intn(3) {
+	case 0:
+		coins = coins1
+	case 1:
+		coins = coins2
+	case 2:
+		coins = coins3
+	}
+
+	// convert array of coin types to a comma separated string
+	coinString := coinToString(coins[0])
+	for _, c := range coins[1:] {
+		coinString = coinString + "," + coinToString(c)
+	}
+	return coinString
+}
+
+func coinToString(c coin) string {
+	amt := c.amt + rand.Intn(c.amt)
+	return fmt.Sprintf("%du%s", amt*1000000, c.denom)
 }
